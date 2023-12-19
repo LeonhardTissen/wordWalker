@@ -18,3 +18,9 @@ export function verifyWord(word: string): boolean {
 	const wordList = wordListMap[word.length];
 	return wordList.includes(word.toLowerCase());
 }
+
+export function getHint(wordStart: string, totalLength: number): string {
+	const wordList = wordListMap[totalLength];
+	const matchingWords = wordList.filter(word => word.startsWith(wordStart.toLowerCase()));
+	return matchingWords[Math.floor(Math.random() * matchingWords.length)];
+}
