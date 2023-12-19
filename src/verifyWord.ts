@@ -14,11 +14,7 @@ const wordListMap: Record<number, Array<string>> = {
 	10: wordList10,
 }
 
-function verifyWord(word: string): boolean {
+export function verifyWord(word: string): boolean {
 	const wordList = wordListMap[word.length];
 	return wordList.includes(word.toLowerCase());
 }
-
-console.log(verifyWord('hello'));
-console.log(verifyWord('helloo'));
-console.log(verifyWord('amazing'));
