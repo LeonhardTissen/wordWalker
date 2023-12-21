@@ -2,6 +2,9 @@
 
 A game where you chain words together infinitely.
 
+![WordWalker Image](public/meta.png)
+
+
 ### Install dependencies
 ```sh
 yarn
