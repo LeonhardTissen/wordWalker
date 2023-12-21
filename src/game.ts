@@ -97,7 +97,7 @@ export function pressLetter(key: string): void {
 async function updateGame() {
 	const isBack = isGoingBack();
 	const wordToCheck = currentWord;
-	const wordOriented = isBack ? reverseString(currentWord) : currentWord;
+	// const wordOriented = isBack ? reverseString(currentWord) : currentWord;
 	if (currentWord.length === targetLength) {
 
 		let validWord: string | null = null;
