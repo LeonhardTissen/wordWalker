@@ -96,26 +96,39 @@ export function pressLetter(key: string): void {
 }
 
 function updateGame() {
-	const wordToCheck = isGoingBack() ? reverseString(currentWord) : currentWord;
+	const isBack = isGoingBack();
+	const wordToCheck = currentWord;
+	const wordOriented = isBack ? reverseString(currentWord) : currentWord;
 	if (currentWord.length === targetLength) {
 
-		const isValidWord = verifyWord(wordToCheck);
+		let validWord: string | null = null;
+		if (isBack) {
+			if (verifyWord(wordToCheck)) {
+				validWord = wordToCheck;
+			} else if (verifyWord(reverseString(wordToCheck))) {
+				validWord = reverseString(wordToCheck);
+			}
+		} else {
+			if (verifyWord(wordToCheck)) {
+				validWord = wordToCheck;
+			}
+		}
 
-		if (!isValidWord) {
+		if (validWord === null) {
 
-			alert(`${wordToCheck} is not a valid word!`);
+			alert(`Not a valid word!`);
 
 		} else {
 
-			if (wordHistory.includes(wordToCheck)) {
+			if (wordHistory.includes(validWord)) {
 
-				alert(`${wordToCheck} has already been used!`);
+				alert(`${validWord} has already been used!`);
 
 			} else {
 				markCurrentWordAsCorrect();
 
-				wordHistory.push(wordToCheck);
-				score += countPoints(wordToCheck);
+				wordHistory.push(validWord);
+				score += countPoints(validWord);
 				updateStats();
 				
 				currentDirection = nextDirections[wordHistory.length % nextDirections.length];
@@ -133,14 +146,9 @@ function updateGame() {
 		}
 	}
 
-	const hint = getHint(wordToCheck, targetLength, isGoingBack())
+	const hint = getHint(wordOriented, targetLength, isGoingBack());
 	if (hint !== undefined) {
 		console.log(`Hint: ${hint}`);
-	}
-
-	if (isGoingBack() && !knowsAboutGoingLeft) {
-		alert('When going up, you need to type the word backwards and it needs to end with the last letter of the previous word');
-		knowsAboutGoingLeft = true;
 	}
 }
 
