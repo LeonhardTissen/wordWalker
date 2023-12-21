@@ -114,10 +114,10 @@ function updateGame() {
 			} else {
 				markCurrentWordAsCorrect();
 
+				wordHistory.push(wordToCheck);
 				score += countPoints(wordToCheck);
 				updateStats();
 				
-				wordHistory.push(wordToCheck);
 				currentDirection = nextDirections[wordHistory.length % nextDirections.length];
 				
 				// Keep last letter
