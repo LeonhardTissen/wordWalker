@@ -95,7 +95,7 @@ export function pressLetter(key: string): void {
 	updateGame();
 }
 
-function updateGame() {
+async function updateGame() {
 	const isBack = isGoingBack();
 	const wordToCheck = currentWord;
 	const wordOriented = isBack ? reverseString(currentWord) : currentWord;
@@ -103,13 +103,13 @@ function updateGame() {
 
 		let validWord: string | null = null;
 		if (isBack) {
-			if (verifyWord(wordToCheck)) {
+			if (await verifyWord(wordToCheck)) {
 				validWord = wordToCheck;
-			} else if (verifyWord(reverseString(wordToCheck))) {
+			} else if (await verifyWord(reverseString(wordToCheck))) {
 				validWord = reverseString(wordToCheck);
 			}
 		} else {
-			if (verifyWord(wordToCheck)) {
+			if (await verifyWord(wordToCheck)) {
 				validWord = wordToCheck;
 			}
 		}
@@ -146,10 +146,10 @@ function updateGame() {
 		}
 	}
 
-	const hint = getHint(wordOriented, targetLength, isGoingBack());
-	if (hint !== undefined) {
-		console.log(`Hint: ${hint}`);
-	}
+	// const hint = await getHint(wordOriented, targetLength, isGoingBack());
+	// if (hint !== undefined) {
+	// 	console.log(`Hint: ${hint}`);
+	// }
 }
 
 document.body.addEventListener('keydown', (e) => {

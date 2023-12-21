@@ -1,32 +1,11 @@
-import wordList5 from './wordlists/words_alpha_filtered_5.json';
-import wordList6 from './wordlists/words_alpha_filtered_6.json';
-import wordList7 from './wordlists/words_alpha_filtered_7.json';
-import wordList8 from './wordlists/words_alpha_filtered_8.json';
-import wordList9 from './wordlists/words_alpha_filtered_9.json';
-import wordList10 from './wordlists/words_alpha_filtered_10.json';
-
-const wordListMap: Record<number, Array<string>> = {
-	5: wordList5,
-	6: wordList6,
-	7: wordList7,
-	8: wordList8,
-	9: wordList9,
-	10: wordList10,
+export async function verifyWord(word: string): Promise<boolean> {
+	const response = await fetch(`https://warze.org/wordwalker/checkword?word=${word}`);
+	const text = await response.text();
+	return text === 'true';
 }
 
-export function verifyWord(word: string): boolean {
-	const wordList = wordListMap[word.length];
-	return wordList.includes(word.toLowerCase());
-}
-
-export function getHint(wordStart: string, totalLength: number, isReverse: boolean = false): string {
-	const wordList = wordListMap[totalLength];
-	const matchingWords = wordList.filter(word => 
-		isReverse
-		?
-		word.endsWith(wordStart.toLowerCase())
-		:
-		word.startsWith(wordStart.toLowerCase())
-	);
-	return matchingWords[Math.floor(Math.random() * matchingWords.length)];
+export async function getHint(wordStart: string, totalLength: number, isReverse: boolean = false): Promise<string | undefined> {
+	const response = await fetch(`https://warze.org/wordwalker/getmatchingword?word=${wordStart}&length=${totalLength}&reverse=${isReverse}`);
+	const text = await response.text();
+	return text === 'No matching word found' ? undefined : text;
 }
