@@ -27,7 +27,7 @@ export function fillKeyboard(): void {
 				});
 			} else {
 				key.addEventListener('click', () => {
-					pressLetter(key.innerText);
+					pressLetter(key.innerText.toLowerCase());
 				});
 			}
 			keyRow.appendChild(key);

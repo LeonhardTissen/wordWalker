@@ -275,7 +275,7 @@ const pointMap: Record<string, number> = {
 function countPoints(word: string): number {
 	let points = 0;
 	for (const letter of word) {
-		points += pointMap[letter];
+		points += pointMap[letter.toLowerCase()];
 	}
 	return points;
 }
