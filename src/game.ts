@@ -138,8 +138,8 @@ function updateGame() {
 		console.log(`Hint: ${hint}`);
 	}
 
-	if (currentDirection === Direction.Left && !knowsAboutGoingLeft) {
-		alert('When going left, you need to type the word backwards and it needs to end with the last letter of the previous word');
+	if (isGoingBack() && !knowsAboutGoingLeft) {
+		alert('When going up, you need to type the word backwards and it needs to end with the last letter of the previous word');
 		knowsAboutGoingLeft = true;
 	}
 }
@@ -225,7 +225,7 @@ function reverseString(str: string): string {
 }
 
 function isGoingBack(): boolean {
-	return currentDirection === Direction.Left;
+	return currentDirection === Direction.Left || currentDirection === Direction.Up;
 }
 
 spawnLetterBoxSnake(currentPosX + 1, currentPosY, targetLength, nextDirections[0]);
