@@ -115,7 +115,7 @@ function updateGame() {
 				markCurrentWordAsCorrect();
 
 				score += countPoints(wordToCheck);
-				updateScore();
+				updateStats();
 				
 				wordHistory.push(wordToCheck);
 				currentDirection = nextDirections[wordHistory.length % nextDirections.length];
@@ -237,10 +237,14 @@ function markCurrentWordAsCorrect(): void {
 	});
 }
 
-function updateScore(): void {
+function updateStats(): void {
 	const scoreNum = document.getElementById('scoreNum') as HTMLSpanElement;
-
+	const wordsNum = document.getElementById('wordsNum') as HTMLSpanElement;
+	const lenNum = document.getElementById('lenNum') as HTMLSpanElement;
+	
 	scoreNum.innerText = score.toString();
+	wordsNum.innerText = wordHistory.length.toString();
+	lenNum.innerText = targetLength.toString();
 }
 
 const pointMap: Record<string, number> = {

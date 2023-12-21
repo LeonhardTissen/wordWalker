@@ -62,18 +62,18 @@ body {
 	transform: translateX(-50%);
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 1vw;
 }
 .keyRow {
 	display: flex;
 	justify-content: center;
-	gap: 4px;
+	gap: 1vw;
 }
 .key {
-	width: 48px;
-	height: 48px;
+	width: 8vw;
+	height: 8vw;
 	color: white;
-	font-size: 28px;
+	font-size: 6vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -90,14 +90,24 @@ body {
 	transform: scale(1.05);
 }
 .backspace {
-	width: 80px;
+	width: 12vw;
 }
-#score {
+#stats {
 	position: fixed;
 	top: 0;
 	left: 0;
 	color: white;
-	padding: 8px;
+	padding: 4px;
+	margin: 4px;
 	font-size: 24px;
+	z-index: 99999;
+	text-shadow: 2px 2px 3px black;
+	background-color: #0008;
+	border-radius: 8px;
+}
+#stats p {
 	margin: 0;
+}
+#stats p span {
+	color: #FBE1B8;
 }

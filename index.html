@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>WordWalker</title>
-		
+
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta property="og:title" content="WordWalker" />
 		<meta property="og:description" content="An infinite word game where you chain words" />
@@ -19,7 +19,11 @@
 		<meta property="og:locale" content="en_US" />
 	</head>
 	<body>
-		<p id="score">Score: <span id="scoreNum">0</span></p>
+		<div id="stats">
+			<p id="score">Score: <span id="scoreNum">0</span></p>
+			<p id="words">Words: <span id="wordsNum">0</span></p>
+			<p id="len">Current length: <span id="lenNum">5</span></p>
+		</div>
 		<div id="game"></div>
 		<div id="onScreenKeyboard"></div>
 		<script type="module" src="/src/main.ts"></script>
