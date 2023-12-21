@@ -186,11 +186,11 @@ function spawnLetterBoxSnake(x: number, y: number, length: number, direction: Di
 	}
 }
 
-function setCurrentPos(x: number, y: number): void {
-	currentPosX = x;
-	currentPosY = y;
-	updateCameraPos();
-}
+// function setCurrentPos(x: number, y: number): void {
+// 	currentPosX = x;
+// 	currentPosY = y;
+// 	updateCameraPos();
+// }
 
 function updateCameraPos(): void {
 	game.style.transform = `translate(-${currentPosX * letterBoxSize}px, -${currentPosY * letterBoxSize}px)`;
