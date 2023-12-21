@@ -6,6 +6,9 @@ body {
 	margin: 0;
 	background-color: black;
 	overflow: hidden;
+	font-family: Geist;
+	font-weight: 100;
+	user-select: none;
 }
 #game {
 	position: fixed;
@@ -14,8 +17,9 @@ body {
 	transition: transform 0.2s ease-in-out;
 }
 .letterBox {
-	width: 50px;
-	height: 50px;
+	padding: 1px;
+	width: 44px;
+	height: 44px;
 	outline: 1px solid white;
 	position: absolute;
 	transform: translate(-50%, -50%);
@@ -24,8 +28,58 @@ body {
 	justify-content: center;
 	align-items: center;
 	color: white;
-	font-family: Geist;
-	font-weight: 100;
 	font-size: 32px;
 	text-transform: uppercase;
+	transition: color 0.2s ease-in-out, outline 0.2s ease-in-out;
+}
+.letterBox.correct {
+	color: #0f0;
+	outline: #0f0 1px solid;
+}
+
+#onScreenKeyboard {
+	position: fixed;
+	bottom: 0;
+	left: 50vw;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.keyRow {
+	display: flex;
+	justify-content: center;
+	gap: 4px;
+}
+.key {
+	width: 48px;
+	height: 48px;
+	color: white;
+	font-size: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid white;
+	border-radius: 8px;
+	background-color: #0008;
+	backdrop-filter: blur(4px);
+	cursor: pointer;
+	text-transform: capitalize;
+	transition: opacity 0.1s linear, transform 0.1s ease-in-out;
+}
+.key:hover {
+	opacity: 0.7;
+	transform: scale(1.05);
+}
+.backspace {
+	width: 80px;
+}
+#score {
+	position: fixed;
+	top: 0;
+	left: 0;
+	color: white;
+	padding: 8px;
+	font-size: 24px;
+	margin: 0;
 }

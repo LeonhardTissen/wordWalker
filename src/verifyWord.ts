@@ -19,8 +19,14 @@ export function verifyWord(word: string): boolean {
 	return wordList.includes(word.toLowerCase());
 }
 
-export function getHint(wordStart: string, totalLength: number): string {
+export function getHint(wordStart: string, totalLength: number, isReverse: boolean = false): string {
 	const wordList = wordListMap[totalLength];
-	const matchingWords = wordList.filter(word => word.startsWith(wordStart.toLowerCase()));
+	const matchingWords = wordList.filter(word => 
+		isReverse
+		?
+		word.endsWith(wordStart.toLowerCase())
+		:
+		word.startsWith(wordStart.toLowerCase())
+	);
 	return matchingWords[Math.floor(Math.random() * matchingWords.length)];
 }

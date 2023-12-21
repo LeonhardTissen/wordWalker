@@ -11,6 +11,7 @@ let currentWord: string = '';
 let targetLength: number = 5;
 let currentDirection: Direction = Direction.Right;
 let knowsAboutGoingLeft: boolean = false;
+let score: number = 0;
 
 const nextDirections: Array<Direction> = [
 	Direction.Right,
@@ -38,56 +39,65 @@ const nextDirections: Array<Direction> = [
 	Direction.Right,
 	Direction.Down,
 ];
-let currentPosX: number = 0;
+let currentPosX: number = 50;
 let currentPosY: number = 50;
 
 const wordHistory: Array<string> = [];
 
 const validCharacters = 'abcdefghijklmnopqrstuvwxyz';
 
-document.body.addEventListener('keydown', (e) => {
-	if (e.key === 'Backspace' && currentWord.length > 1) {
-		currentWord = currentWord.slice(0, -1);
+export function pressBackspace(): void {
+	if (currentWord.length <= 1) return;
 
-		emptyLetterBox(currentPosX, currentPosY);
-		switch (currentDirection) {
-			case Direction.Up:
-				currentPosY ++;
-				break;
-			case Direction.Down:
-				currentPosY --;
-				break;
-			case Direction.Right:
-				currentPosX --;
-				break;
-			case Direction.Left:
-				currentPosX ++;
-				break;
-		}
-		updateCameraPos();
-	}
-	else if (validCharacters.includes(e.key) && currentWord.length < targetLength) {
-		currentWord += e.key;
-		switch (currentDirection) {
-			case Direction.Up:
-				currentPosY --;
-				break;
-			case Direction.Down:
-				currentPosY ++;
-				break;
-			case Direction.Right:
-				currentPosX ++;
-				break;
-			case Direction.Left:
-				currentPosX --;
-				break;
-		}
-		updateCameraPos();
-		fillLetterBox(currentPosX, currentPosY, e.key);
-	}
+	currentWord = currentWord.slice(0, -1);
 
+	emptyLetterBox(currentPosX, currentPosY);
+	switch (currentDirection) {
+		case Direction.Up:
+			currentPosY ++;
+			break;
+		case Direction.Down:
+			currentPosY --;
+			break;
+		case Direction.Right:
+			currentPosX --;
+			break;
+		case Direction.Left:
+			currentPosX ++;
+			break;
+	}
+	updateCameraPos();
+
+	updateGame();
+}
+
+export function pressLetter(key: string): void {
+	if (currentWord.length >= targetLength) return;
+
+	currentWord += key;
+	switch (currentDirection) {
+		case Direction.Up:
+			currentPosY --;
+			break;
+		case Direction.Down:
+			currentPosY ++;
+			break;
+		case Direction.Right:
+			currentPosX ++;
+			break;
+		case Direction.Left:
+			currentPosX --;
+			break;
+	}
+	updateCameraPos();
+	fillLetterBox(currentPosX, currentPosY, key);
+
+	updateGame();
+}
+
+function updateGame() {
+	const wordToCheck = isGoingBack() ? reverseString(currentWord) : currentWord;
 	if (currentWord.length === targetLength) {
-		const wordToCheck = currentDirection === Direction.Left ? currentWord.split('').reverse().join('') : currentWord;
 
 		const isValidWord = verifyWord(wordToCheck);
 
@@ -102,6 +112,10 @@ document.body.addEventListener('keydown', (e) => {
 				alert(`${wordToCheck} has already been used!`);
 
 			} else {
+				markCurrentWordAsCorrect();
+
+				score += countPoints(wordToCheck);
+				updateScore();
 				
 				wordHistory.push(wordToCheck);
 				currentDirection = nextDirections[wordHistory.length % nextDirections.length];
@@ -119,7 +133,7 @@ document.body.addEventListener('keydown', (e) => {
 		}
 	}
 
-	const hint = getHint(currentWord, targetLength)
+	const hint = getHint(wordToCheck, targetLength, isGoingBack())
 	if (hint !== undefined) {
 		console.log(`Hint: ${hint}`);
 	}
@@ -127,6 +141,15 @@ document.body.addEventListener('keydown', (e) => {
 	if (currentDirection === Direction.Left && !knowsAboutGoingLeft) {
 		alert('When going left, you need to type the word backwards and it needs to end with the last letter of the previous word');
 		knowsAboutGoingLeft = true;
+	}
+}
+
+document.body.addEventListener('keydown', (e) => {
+	if (e.key === 'Backspace') {
+		pressBackspace();
+	}
+	else if (validCharacters.includes(e.key)) {
+		pressLetter(e.key);
 	}
 });
 
@@ -144,7 +167,7 @@ function spawnEmptyLetterBox(x: number, y: number): void {
 		return;
 	}
 	const letterBox = document.createElement('div');
-	letterBox.classList.add('letterBox');
+	letterBox.classList.add('letterBox', `word-${wordHistory.length}`);
 	letterBox.id = getBoxName(x, y);
 	letterBox.style.left = `${x * letterBoxSize}px`;
 	letterBox.style.top = `${y * letterBoxSize}px`;
@@ -196,5 +219,69 @@ function updateCameraPos(): void {
 	game.style.transform = `translate(-${currentPosX * letterBoxSize}px, -${currentPosY * letterBoxSize}px)`;
 }
 
+function reverseString(str: string): string {
+	return str.split('').reverse().join('');
+}
+
+function isGoingBack(): boolean {
+	return currentDirection === Direction.Left;
+}
+
 spawnLetterBoxSnake(currentPosX + 1, currentPosY, targetLength, nextDirections[0]);
 updateCameraPos();
+
+function markCurrentWordAsCorrect(): void {
+	document.querySelectorAll(`.word-${wordHistory.length}`).forEach(letterBox => {
+		letterBox.classList.add('correct');
+	});
+}
+
+function updateScore(): void {
+	const scoreNum = document.getElementById('scoreNum') as HTMLSpanElement;
+
+	scoreNum.innerText = score.toString();
+}
+
+const pointMap: Record<string, number> = {
+	'a': 1,
+	'b': 3,
+	'c': 3,
+	'd': 2,
+	'e': 1,
+	'f': 4,
+	'g': 2,
+	'h': 4,
+	'i': 1,
+	'j': 8,
+	'k': 5,
+	'l': 1,
+	'm': 3,
+	'n': 1,
+	'o': 1,
+	'p': 3,
+	'q': 10,
+	'r': 1,
+	's': 1,
+	't': 1,
+	'u': 1,
+	'v': 4,
+	'w': 4,
+	'x': 8,
+	'y': 4,
+	'z': 10,
+}
+
+function countPoints(word: string): number {
+	let points = 0;
+	for (const letter of word) {
+		points += pointMap[letter];
+	}
+	return points;
+}
+
+const isMobile = 'ontouchstart' in document.documentElement
+
+if (!isMobile) {
+	const onScreenKeyboard = document.getElementById('onScreenKeyboard') as HTMLDivElement;
+	onScreenKeyboard.style.display = 'none';
+}
