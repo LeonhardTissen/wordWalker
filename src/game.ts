@@ -1,4 +1,4 @@
-import { getHint, verifyWord } from "./verifyWord";
+import { verifyWord } from "./verifyWord";
 
 enum Direction {
 	Up,
@@ -10,7 +10,6 @@ enum Direction {
 let currentWord: string = '';
 let targetLength: number = 5;
 let currentDirection: Direction = Direction.Right;
-let knowsAboutGoingLeft: boolean = false;
 let score: number = 0;
 
 const nextDirections: Array<Direction> = [
