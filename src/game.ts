@@ -171,6 +171,7 @@ function spawnEmptyLetterBox(x: number, y: number): void {
 	letterBox.id = getBoxName(x, y);
 	letterBox.style.left = `${x * letterBoxSize}px`;
 	letterBox.style.top = `${y * letterBoxSize}px`;
+	letterBox.style.zIndex = `${x + y}`;
 	game.appendChild(letterBox);
 }
 
@@ -279,7 +280,7 @@ function countPoints(word: string): number {
 	return points;
 }
 
-const isMobile = 'ontouchstart' in document.documentElement
+const isMobile = 'ontouchstart' in document.documentElement;
 
 if (!isMobile) {
 	const onScreenKeyboard = document.getElementById('onScreenKeyboard') as HTMLDivElement;
