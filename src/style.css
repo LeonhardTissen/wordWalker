@@ -2,9 +2,15 @@
 	font-family: Geist;
 	src: url(./fonts/GeistVF.woff2) format('woff2'), sans-serif;
 }
+:root {
+	--background: #3d3a36;
+	--tile-shadow: #cdb186;
+	--tile: #fbe0b7;
+	--overlay: #0008;
+}
 body {
 	margin: 0;
-	background-color: #3d3a36;
+	background-color: var(--background);
 	overflow: hidden;
 	font-family: Geist;
 	font-weight: 100;
@@ -30,15 +36,15 @@ body {
 	font-size: 32px;
 	text-transform: uppercase;
 	transition: color 0.2s ease-in-out, outline 0.2s ease-in-out;
-	background-color: #FBE0B7;
-	text-shadow: 1px 1px 2px #0008;
+	background-color: var(--tile);
+	text-shadow: 1px 1px 2px var(--overlay);
 	box-shadow:
-		2px 2px 0px #cdb186,
-		4px 4px 0px #cdb186,
-		6px 6px 0px #cdb186,
-		inset 2px 2px 5px #FBE0B7,
+		2px 2px 0px var(--tile-shadow),
+		4px 4px 0px var(--tile-shadow),
+		6px 6px 0px var(--tile-shadow),
+		inset 2px 2px 5px var(--tile),
 		inset 4px 4px 12px #ffffff,
-		inset -1px -1px 2px #CDB186;
+		inset -1px -1px 2px var(--tile-shadow);
 }
 .letterBox.correct {
 	animation: correct 0.5s linear;
@@ -79,7 +85,7 @@ body {
 	align-items: center;
 	border: 1px solid white;
 	border-radius: 8px;
-	background-color: #0008;
+	background-color: var(--overlay);
 	backdrop-filter: blur(4px);
 	cursor: pointer;
 	text-transform: capitalize;
@@ -102,12 +108,12 @@ body {
 	font-size: 20px;
 	z-index: 99999;
 	text-shadow: 2px 2px 3px black;
-	background-color: #0008;
+	background-color: var(--overlay);
 	border-radius: 8px;
 }
 #stats p {
 	margin: 0;
 }
 #stats p span {
-	color: #FBE1B8;
+	color: var(--tile);
 }
